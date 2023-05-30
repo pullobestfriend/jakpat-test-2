@@ -1,1 +1,3 @@
-DROP TABLE books;
+DROP TABLE users;
+DROP TABLE items;
+DROP TABLE orders;
