@@ -1,15 +1,17 @@
 package main
 
 import (
-	"booksApi"
-	"booksApi/pkg/handler"
-	"booksApi/pkg/repository"
-	"booksApi/pkg/service"
+	jakpatTest "jakpat-test-2"
+	"jakpat-test-2/pkg/handler"
+	"jakpat-test-2/pkg/repository"
+	"jakpat-test-2/pkg/service"
+	"jakpat-test-2/pkg/usecase"
+	"log"
+	"os"
+
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 	"github.com/spf13/viper"
-	"log"
-	"os"
 )
 
 func main() {
@@ -35,9 +37,15 @@ func main() {
 
 	repos := repository.NewRepository(db)
 	services := service.NewService(repos)
-	handlers := handler.NewHandler(services)
+	usecases := usecase.NewUsecase(
+		services,
+		viper.GetString("auth.hash_salt"),
+		[]byte(viper.GetString("auth.signing_key")),
+		viper.GetDuration("auth.token_ttl"),
+	)
+	handlers := handler.NewHandler(usecases)
 
-	srv := new(booksApi.Server)
+	srv := new(jakpatTest.Server)
 	if err := srv.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		log.Fatal("error occurred while running http server: ", err.Error())
 	}

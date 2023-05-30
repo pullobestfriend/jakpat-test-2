@@ -1,30 +1,34 @@
 package service
 
 import (
-	"booksApi"
-	"booksApi/pkg/repository"
+	"jakpat-test-2/entity"
+	"jakpat-test-2/pkg/repository"
 )
 
-type Books interface {
-	GetAll() ([]booksApi.Book, error)
+type User interface {
+	CreateUser(input entity.Users) (int, error)
+	GetUserByIdAndStatus(id int, status int) (entity.Users, error)
+	GetUserByNameAndPassword(name, password string) (entity.Users, error)
 }
 
-type Book interface {
-	GetById(id int) (booksApi.Book, error)
-	Create(book booksApi.Book) (int, error)
-	Update(id int, input booksApi.UpdateBookInput) error
-	Delete(id int) error
+type Item interface {
+	AddItem(input entity.Items) (int, error)
+	GetItemByIdAndStatus(id int, status int) (entity.Items, error)
+	UpdateItemById(id int, input entity.Items) error
+	GetItemsBySellerIdAndStatus(sellerID int, status int) ([]entity.Items, error)
+	CreateOrder(input entity.Oders) (int, error)
+	GetOrderById(id int) (entity.Oders, error)
+	UpdateOrderById(id int, input entity.Oders) error
 }
 
 type Service struct {
-	Books
-	Book
+	User
+	Item
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
-		Books: NewBooksService(repos.Books),
-		Book:  NewBookService(repos.Book),
+		User: NewUserService(repos.User),
+		Item: NewItemService(repos.Item),
 	}
-
 }

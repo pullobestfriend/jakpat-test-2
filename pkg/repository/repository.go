@@ -1,29 +1,35 @@
 package repository
 
 import (
-	"booksApi"
+	"jakpat-test-2/entity"
+
 	"github.com/jmoiron/sqlx"
 )
 
-type Books interface {
-	GetAll() ([]booksApi.Book, error)
+type User interface {
+	CreateUser(input entity.Users) (int, error)
+	GetUserByIdAndStatus(id int, status int) (entity.Users, error)
+	GetUserByNameAndPassword(name, password string) (entity.Users, error)
 }
 
-type Book interface {
-	GetById(id int) (booksApi.Book, error)
-	Create(input booksApi.Book) (int, error)
-	Update(id int, input booksApi.UpdateBookInput) error
-	Delete(id int) error
+type Item interface {
+	AddItem(input entity.Items) (int, error)
+	GetItemByIdAndStatus(id int, status int) (entity.Items, error)
+	UpdateItemById(id int, input entity.Items) error
+	GetItemsBySellerIdAndStatus(sellerID int, status int) ([]entity.Items, error)
+	CreateOrder(input entity.Oders) (int, error)
+	GetOrderById(id int) (entity.Oders, error)
+	UpdateOrderById(id int, input entity.Oders) error
 }
 
 type Repository struct {
-	Books
-	Book
+	User
+	Item
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
-		Books: NewBookPostgres(db),
-		Book:  NewBookPostgres(db),
+		User: NewDBPostgres(db),
+		Item: NewDBPostgres(db),
 	}
 }

@@ -17,7 +17,7 @@ go run cmd/main.go
 
 If the application is launched for the first time, you need to apply migrations to the database:
 ```bash
-migrate -path ./schema -database 'postgres://postgres:password@host:5436/postgres?sslmode=disable' up
+migrate -path ./schema -database 'postgres://postgres:xxxxxx@localhost:5433/postgres?sslmode=disable' up
 ```
 
 ```
