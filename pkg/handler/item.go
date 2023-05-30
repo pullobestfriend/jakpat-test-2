@@ -106,7 +106,7 @@ func (h *Handler) GetItemsBySellerIdAndStatus(c *gin.Context) {
 }
 
 func (h *Handler) CreateOrder(c *gin.Context) {
-	var order entity.Oders
+	var order entity.Order
 
 	if err := c.BindJSON(&order); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())

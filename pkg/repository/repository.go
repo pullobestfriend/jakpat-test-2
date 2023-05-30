@@ -17,9 +17,9 @@ type Item interface {
 	GetItemByIdAndStatus(id int, status int) (entity.Items, error)
 	UpdateItemById(id int, input entity.Items) error
 	GetItemsBySellerIdAndStatus(sellerID int, status int) ([]entity.Items, error)
-	CreateOrder(input entity.Oders) (int, error)
-	GetOrderById(id int) (entity.Oders, error)
-	UpdateOrderById(id int, input entity.Oders) error
+	CreateOrder(input entity.Order) (int, error)
+	GetOrderById(id int) (entity.Order, error)
+	UpdateOrderById(id int, input entity.Order) error
 }
 
 type Repository struct {

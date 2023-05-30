@@ -179,10 +179,10 @@ func (mr *MockItemMockRecorder) GetItemsBySellerIdAndStatus(user, sellerID, stat
 }
 
 // GetOrderById mocks base method.
-func (m *MockItem) GetOrderById(user entity.Users, id int) (entity.Oders, error) {
+func (m *MockItem) GetOrderById(user entity.Users, id int) (entity.Order, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetOrderById", user, id)
-	ret0, _ := ret[0].(entity.Oders)
+	ret0, _ := ret[0].(entity.Order)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
