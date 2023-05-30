@@ -61,7 +61,7 @@ func (s *ItemService) GetItemsBySellerIdAndStatus(sellerID int, status int) ([]e
 	return items, nil
 }
 
-func (s *ItemService) CreateOrder(input entity.Oders) (int, error) {
+func (s *ItemService) CreateOrder(input entity.Order) (int, error) {
 	item, err := s.repo.GetItemByIdAndStatus(input.ItemID, statusItemActive)
 	if err != nil {
 		return 0, err
@@ -71,7 +71,7 @@ func (s *ItemService) CreateOrder(input entity.Oders) (int, error) {
 		return 0, errItemOutOfStock
 	}
 
-	// add tx
+	// TODO add tx
 	orderID, err := s.repo.CreateOrder(input)
 	if err != nil {
 		return 0, err
@@ -85,24 +85,24 @@ func (s *ItemService) CreateOrder(input entity.Oders) (int, error) {
 	return orderID, nil
 }
 
-func (s *ItemService) GetOrderById(id int) (entity.Oders, error) {
+func (s *ItemService) GetOrderById(id int) (entity.Order, error) {
 	order, err := s.repo.GetOrderById(id)
 	if err != nil {
-		return entity.Oders{}, err
+		return entity.Order{}, err
 	}
 
-	if now().After(order.ExpiredDate) && order.Status ==  orderStatusWaiting{
+	if now().After(order.ExpiredDate) && order.Status == orderStatusWaiting {
 		order.Status = orderStatusExpired
 		err = s.repo.UpdateOrderById(id, order)
 		if err != nil {
-			return entity.Oders{}, err
+			return entity.Order{}, err
 		}
 	}
 
 	return order, nil
 }
 
-func (s *ItemService) UpdateOrderById(id int, input entity.Oders) error {
+func (s *ItemService) UpdateOrderById(id int, input entity.Order) error {
 	err := s.repo.UpdateOrderById(id, input)
 	if err != nil {
 		return err

@@ -83,7 +83,7 @@ func (r *DBPostgres) GetItemsBySellerIdAndStatus(sellerID int, status int) ([]en
 	return items, nil
 }
 
-func (r *DBPostgres) CreateOrder(input entity.Oders) (int, error) {
+func (r *DBPostgres) CreateOrder(input entity.Order) (int, error) {
 	query := "INSERT INTO orders (item_id, buyer_id, status, expired_date) VALUES ($1, $2, $3, $4) RETURNING id"
 	var id int
 	err := r.db.Get(&id, query, input.ItemID, input.BuyerID, input.Status, input.ExpiredDate)
@@ -93,8 +93,8 @@ func (r *DBPostgres) CreateOrder(input entity.Oders) (int, error) {
 	return id, nil
 }
 
-func (r *DBPostgres) GetOrderById(id int) (entity.Oders, error) {
-	var order entity.Oders
+func (r *DBPostgres) GetOrderById(id int) (entity.Order, error) {
+	var order entity.Order
 	query := `
 	SELECT orders.id, orders.item_id, orders.buyer_id, items.seller_id, orders.status, orders.expired_date, orders.created_date, orders.last_updated 
 	FROM orders
@@ -102,13 +102,13 @@ func (r *DBPostgres) GetOrderById(id int) (entity.Oders, error) {
 	WHERE orders.id = $1`
 	err := r.db.Get(&order, query, id)
 	if err != nil {
-		return entity.Oders{}, err
+		return entity.Order{}, err
 	}
 	return order, nil
 }
 
-func (r *DBPostgres) GetOrdersBySellerId(sellerID int) ([]entity.Oders, error) {
-	var orders []entity.Oders
+func (r *DBPostgres) GetOrdersBySellerId(sellerID int) ([]entity.Order, error) {
+	var orders []entity.Order
 	query := `
 	SELECT orders.id, orders.item_id, orders.buyer_id, items.seller_id, orders.status, orders.expired_date, orders.created_date, orders.last_updated 
 	FROM orders
@@ -121,7 +121,7 @@ func (r *DBPostgres) GetOrdersBySellerId(sellerID int) ([]entity.Oders, error) {
 	return orders, nil
 }
 
-func (r *DBPostgres) UpdateOrderById(id int, input entity.Oders) error {
+func (r *DBPostgres) UpdateOrderById(id int, input entity.Order) error {
 	query := "UPDATE orders SET status = $1, last_updated = NOW() WHERE id = $2"
 	_, err := r.db.Exec(query, input.Status, id)
 	if err != nil {

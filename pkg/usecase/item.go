@@ -35,6 +35,8 @@ func (u *Usecase) AddItem(user entity.Users, input entity.Items) (int, error) {
 	if user.Role != roleSeller {
 		return 0, errUserNotSeller
 	}
+
+	input.SellerID = user.ID
 	itemID, err := u.services.AddItem(input)
 	if err != nil {
 		return 0, err
@@ -92,7 +94,7 @@ func (u *Usecase) CreateOrder(user entity.Users, itemID int) (int, error) {
 		return 0, errUserNotBuyer
 	}
 
-	orderID, err := u.services.CreateOrder(entity.Oders{
+	orderID, err := u.services.CreateOrder(entity.Order{
 		ItemID:      itemID,
 		BuyerID:     user.ID,
 		Status:      1,
@@ -104,17 +106,17 @@ func (u *Usecase) CreateOrder(user entity.Users, itemID int) (int, error) {
 	return orderID, nil
 }
 
-func (u *Usecase) GetOrderById(user entity.Users, id int) (entity.Oders, error) {
+func (u *Usecase) GetOrderById(user entity.Users, id int) (entity.Order, error) {
 	order, err := u.services.GetOrderById(id)
 	if err != nil {
-		return entity.Oders{}, err
+		return entity.Order{}, err
 	}
 
 	order.StatusName = orderStatusMap[order.Status]
 	if user.ID == order.BuyerID || user.ID == order.SellerID {
 		return order, nil
 	} else {
-		return entity.Oders{}, errUserNotEligibleForOrder
+		return entity.Order{}, errUserNotEligibleForOrder
 	}
 }
 

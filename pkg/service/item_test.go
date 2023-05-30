@@ -234,7 +234,7 @@ func TestItemService_GetItemsBySellerIdAndStatus(t *testing.T) {
 
 func TestItemService_CreateOrder(t *testing.T) {
 	type args struct {
-		input entity.Oders
+		input entity.Order
 	}
 	tests := []struct {
 		name    string
@@ -246,7 +246,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 		{
 			name: "error_item_not_found",
 			args: args{
-				input: entity.Oders{
+				input: entity.Order{
 					ItemID: 1,
 				},
 			},
@@ -259,7 +259,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 		{
 			name: "error_item_no_stock",
 			args: args{
-				input: entity.Oders{
+				input: entity.Order{
 					ItemID: 1,
 				},
 			},
@@ -272,13 +272,13 @@ func TestItemService_CreateOrder(t *testing.T) {
 		{
 			name: "error_create_order",
 			args: args{
-				input: entity.Oders{
+				input: entity.Order{
 					ItemID: 1,
 				},
 			},
 			mock: func(m *mock_service.MockItem) {
 				m.EXPECT().GetItemByIdAndStatus(int(1), statusItemActive).Return(entity.Items{Stock: 1}, nil)
-				m.EXPECT().CreateOrder(entity.Oders{ItemID: 1}).Return(0, assert.AnError)
+				m.EXPECT().CreateOrder(entity.Order{ItemID: 1}).Return(0, assert.AnError)
 			},
 			want:    0,
 			wantErr: true,
@@ -286,7 +286,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 		{
 			name: "error_update_item",
 			args: args{
-				input: entity.Oders{
+				input: entity.Order{
 					ItemID: 1,
 				},
 			},
@@ -295,7 +295,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 					ID:    2,
 					Stock: 1,
 				}, nil)
-				m.EXPECT().CreateOrder(entity.Oders{ItemID: 1}).Return(1, nil)
+				m.EXPECT().CreateOrder(entity.Order{ItemID: 1}).Return(1, nil)
 				m.EXPECT().UpdateItemById(int(2), entity.Items{
 					ID:    2,
 					Stock: 0,
@@ -307,7 +307,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 		{
 			name: "success",
 			args: args{
-				input: entity.Oders{
+				input: entity.Order{
 					ItemID: 1,
 				},
 			},
@@ -316,7 +316,7 @@ func TestItemService_CreateOrder(t *testing.T) {
 					ID:    2,
 					Stock: 1,
 				}, nil)
-				m.EXPECT().CreateOrder(entity.Oders{ItemID: 1}).Return(1, nil)
+				m.EXPECT().CreateOrder(entity.Order{ItemID: 1}).Return(1, nil)
 				m.EXPECT().UpdateItemById(int(2), entity.Items{
 					ID:    2,
 					Stock: 0,
@@ -353,7 +353,7 @@ func TestItemService_GetOrderById(t *testing.T) {
 		name    string
 		mock    func(m *mock_service.MockItem)
 		args    args
-		want    entity.Oders
+		want    entity.Order
 		wantErr bool
 	}{
 		{
@@ -362,9 +362,9 @@ func TestItemService_GetOrderById(t *testing.T) {
 				id: 1,
 			},
 			mock: func(m *mock_service.MockItem) {
-				m.EXPECT().GetOrderById(int(1)).Return(entity.Oders{}, assert.AnError)
+				m.EXPECT().GetOrderById(int(1)).Return(entity.Order{}, assert.AnError)
 			},
-			want:    entity.Oders{},
+			want:    entity.Order{},
 			wantErr: true,
 		},
 		{
@@ -373,7 +373,7 @@ func TestItemService_GetOrderById(t *testing.T) {
 				id: 1,
 			},
 			mock: func(m *mock_service.MockItem) {
-				m.EXPECT().GetOrderById(int(1)).Return(entity.Oders{
+				m.EXPECT().GetOrderById(int(1)).Return(entity.Order{
 					ID:          1,
 					Status:      orderStatusWaiting,
 					ExpiredDate: mockTime,
@@ -381,13 +381,13 @@ func TestItemService_GetOrderById(t *testing.T) {
 				now = func() time.Time {
 					return time.Date(2024, 1, 1, 1, 1, 1, 1, time.Local)
 				}
-				m.EXPECT().UpdateOrderById(int(1), entity.Oders{
+				m.EXPECT().UpdateOrderById(int(1), entity.Order{
 					ID:          1,
 					Status:      orderStatusExpired,
 					ExpiredDate: mockTime,
 				}).Return(assert.AnError)
 			},
-			want:    entity.Oders{},
+			want:    entity.Order{},
 			wantErr: true,
 		},
 		{
@@ -396,7 +396,7 @@ func TestItemService_GetOrderById(t *testing.T) {
 				id: 1,
 			},
 			mock: func(m *mock_service.MockItem) {
-				m.EXPECT().GetOrderById(int(1)).Return(entity.Oders{
+				m.EXPECT().GetOrderById(int(1)).Return(entity.Order{
 					ID:          1,
 					Status:      orderStatusWaiting,
 					ExpiredDate: mockTime,
@@ -404,13 +404,13 @@ func TestItemService_GetOrderById(t *testing.T) {
 				now = func() time.Time {
 					return time.Date(2024, 1, 1, 1, 1, 1, 1, time.Local)
 				}
-				m.EXPECT().UpdateOrderById(int(1), entity.Oders{
+				m.EXPECT().UpdateOrderById(int(1), entity.Order{
 					ID:          1,
 					Status:      orderStatusExpired,
 					ExpiredDate: mockTime,
 				}).Return(nil)
 			},
-			want: entity.Oders{
+			want: entity.Order{
 				ID:          1,
 				Status:      orderStatusExpired,
 				ExpiredDate: mockTime,
@@ -439,7 +439,7 @@ func TestItemService_GetOrderById(t *testing.T) {
 func TestItemService_UpdateOrderById(t *testing.T) {
 	type args struct {
 		id    int
-		input entity.Oders
+		input entity.Order
 	}
 	tests := []struct {
 		name    string
@@ -451,10 +451,10 @@ func TestItemService_UpdateOrderById(t *testing.T) {
 			name: "error",
 			args: args{
 				id:    1,
-				input: entity.Oders{Status: 2},
+				input: entity.Order{Status: 2},
 			},
 			mock: func(m *mock_service.MockItem) {
-				m.EXPECT().UpdateOrderById(int(1), entity.Oders{Status: 2}).Return(assert.AnError)
+				m.EXPECT().UpdateOrderById(int(1), entity.Order{Status: 2}).Return(assert.AnError)
 			},
 			wantErr: true,
 		},
@@ -462,10 +462,10 @@ func TestItemService_UpdateOrderById(t *testing.T) {
 			name: "success",
 			args: args{
 				id:    1,
-				input: entity.Oders{Status: 2},
+				input: entity.Order{Status: 2},
 			},
 			mock: func(m *mock_service.MockItem) {
-				m.EXPECT().UpdateOrderById(int(1), entity.Oders{Status: 2}).Return(nil)
+				m.EXPECT().UpdateOrderById(int(1), entity.Order{Status: 2}).Return(nil)
 			},
 			wantErr: false,
 		},

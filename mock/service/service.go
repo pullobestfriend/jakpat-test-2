@@ -118,7 +118,7 @@ func (mr *MockItemMockRecorder) AddItem(input interface{}) *gomock.Call {
 }
 
 // CreateOrder mocks base method.
-func (m *MockItem) CreateOrder(input entity.Oders) (int, error) {
+func (m *MockItem) CreateOrder(input entity.Order) (int, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "CreateOrder", input)
 	ret0, _ := ret[0].(int)
@@ -163,10 +163,10 @@ func (mr *MockItemMockRecorder) GetItemsBySellerIdAndStatus(sellerID, status int
 }
 
 // GetOrderById mocks base method.
-func (m *MockItem) GetOrderById(id int) (entity.Oders, error) {
+func (m *MockItem) GetOrderById(id int) (entity.Order, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetOrderById", id)
-	ret0, _ := ret[0].(entity.Oders)
+	ret0, _ := ret[0].(entity.Order)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -192,7 +192,7 @@ func (mr *MockItemMockRecorder) UpdateItemById(id, input interface{}) *gomock.Ca
 }
 
 // UpdateOrderById mocks base method.
-func (m *MockItem) UpdateOrderById(id int, input entity.Oders) error {
+func (m *MockItem) UpdateOrderById(id int, input entity.Order) error {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "UpdateOrderById", id, input)
 	ret0, _ := ret[0].(error)

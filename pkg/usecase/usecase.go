@@ -20,7 +20,7 @@ type Item interface {
 	UpdateItemById(user entity.Users, id int, input entity.Items) error
 	GetItemsBySellerIdAndStatus(user entity.Users, sellerID int, status int) ([]entity.Items, error)
 	CreateOrder(user entity.Users, itemID int) (int, error)
-	GetOrderById(user entity.Users, id int) (entity.Oders, error)
+	GetOrderById(user entity.Users, id int) (entity.Order, error)
 	UpdateOrderStatusByIdAndStatus(user entity.Users, id int, input int) error
 }
 
@@ -31,7 +31,8 @@ type Usecase struct {
 	expireDuration time.Duration
 }
 
-func NewUsecase(services *service.Service,
+func NewUsecase(
+	services *service.Service,
 	hashSalt string,
 	signingKey []byte,
 	tokenTTL time.Duration) *Usecase {
