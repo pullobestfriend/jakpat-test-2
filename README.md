@@ -17,7 +17,7 @@ This project was forked from https://github.com/meyiapir/books-api as a template
 - Only related seller and buyer can see each orders
 - Seller can see all orders related to him
 
-## The project satisfies these requirements:
+## The project does not satisfy these requirements:
 - Auto expire order with status waiting
 
 ### To get this project running:
@@ -47,3 +47,4 @@ As this project was made with limited time available, there's a lot of things th
 - More validation for inputs
 - Better update functions (currently need to input data for all column)
 - Better authorization security
+- more custom errors
