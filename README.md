@@ -22,21 +22,16 @@ This project was forked from https://github.com/meyiapir/books-api as a template
 
 ### To get this project running:
 
-for local run, create .env file with
-```
-DB_PASSWORD=xxxxxx
-```
-and run
+Create .env file based on test.env and run
 ```bash
+make docker-compose
+make migrate-db
 make build
-make run
+make docker-build
+make docker-run
 ```
-
-If the application is launched for the first time, you need to apply migrations to the database:
-```bash
-migrate -path ./schema -database 'postgres://postgres:xxxxxx@localhost:5433/postgres?sslmode=disable' up
-```
-this requires https://github.com/golang-migrate/migrate
+this requires https://github.com/golang-migrate/migrate and docker
+*if you are not building on linux, change go env GOOS to linux and GOARCH=amd64
 
 ### Available API for this project:
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://god.gw.postman.com/run-collection/27681259-973483a5-6fbd-494a-a92d-fedd9fb91d2c?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D27681259-973483a5-6fbd-494a-a92d-fedd9fb91d2c%26entityType%3Dcollection%26workspaceId%3D6fa7ddca-6237-4f5f-93da-e6ba16616e0c)
