@@ -1,0 +1,180 @@
+openapi: 3.0.0
+info:
+  title: jakpat backend test 2
+  version: 1.0.0
+servers:
+  - url: localhost://
+paths:
+  /880/api/user/login:
+    post:
+      tags:
+        - default
+      summary: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: tes
+                password: asd
+                role: 1
+                status: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item:
+    post:
+      tags:
+        - default
+      summary: add item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                sellerID: 5
+                name: qwe
+                stock: 2
+                status: 1
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item/seller/5:
+    get:
+      tags:
+        - default
+      summary: get seller items
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+        - name: status
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item/2:
+    put:
+      tags:
+        - default
+      summary: update item by id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                sellerID: 5
+                name: item2
+                stock: 3
+                status: 1
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item/1:
+    get:
+      tags:
+        - default
+      summary: get item by id
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+        - name: status
+          in: query
+          schema:
+            type: integer
+          example: '1'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/user/signup:
+    post:
+      tags:
+        - default
+      summary: signup
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                name: tesbuyer
+                password: asd
+                role: 2
+                status: 1
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item/order:
+    post:
+      tags:
+        - default
+      summary: order item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                itemID: 1
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}
+  /880/api/item/order/1:
+    get:
+      tags:
+        - default
+      summary: get order
+      parameters:
+        - name: Authorization
+          in: header
+          schema:
+            type: string
+          example: Bearer eyJ***
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: {}

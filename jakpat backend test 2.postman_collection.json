@@ -1,0 +1,277 @@
+{
+	"info": {
+		"_postman_id": "973483a5-6fbd-494a-a92d-fedd9fb91d2c",
+		"name": "jakpat backend test 2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27681259",
+		"_collection_link": "https://www.postman.com/security-operator-78474595/workspace/jakpat-backend-test-2/collection/27681259-973483a5-6fbd-494a-a92d-fedd9fb91d2c?action=share&creator=27681259&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"tes\",\r\n    \"password\": \"asd\",\r\n    \"role\": 1,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/user/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "add item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sellerID\": 5,\r\n    \"name\": \"qwe\",\r\n    \"stock\": 2,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/item",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get seller items",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8880/api/item/seller/5?status=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item",
+						"seller",
+						"5"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update item by id",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"sellerID\": 5,\r\n    \"name\": \"item2\",\r\n    \"stock\": 3,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/item/2",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get item by id",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8880/api/item/1?status=1",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item",
+						"1"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "signup",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"tesbuyer\",\r\n    \"password\": \"asd\",\r\n    \"role\": 2,\r\n    \"status\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/user/signup",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"user",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "order item",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemID\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/item/order",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item",
+						"order"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get order",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ***",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"itemID\": 1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8880/api/item/order/1",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"item",
+						"order",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

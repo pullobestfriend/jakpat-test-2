@@ -1,0 +1,577 @@
+openapi: 3.1.0
+x-stoplight:
+  id: 5lafkofrgt9xn
+info:
+  title: openAPITest
+  version: '1.0'
+servers:
+  - url: 'http://localhost:8880/api'
+paths:
+  /user/login:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-user-login
+      responses:
+        '200':
+          description: (JWT)
+          content: {}
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Endpoint to login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  name: tes
+                  password: asd
+                  role: 1
+                  status: 1
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+        description: name and password of user
+  /user/signup:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-user-signup
+      responses:
+        '200':
+          description: OK
+          content: {}
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Endpoint to login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  name: tes
+                  password: asd
+                  role: 1
+                  status: 1
+              properties:
+                name:
+                  type: string
+                password:
+                  type: string
+                role:
+                  type: integer
+                  x-stoplight:
+                    id: fo8u6s47vfj3q
+                status:
+                  type: integer
+                  x-stoplight:
+                    id: ql96jppk43jzb
+        description: name and password of user
+  /item:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-item
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    x-stoplight:
+                      id: 7oss0aztq4nft
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Endpoint to add item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sellerID:
+                  type: integer
+                name:
+                  type: string
+                stock:
+                  type: integer
+                status:
+                  type: integer
+              x-examples:
+                Example 1:
+                  sellerID: 5
+                  name: qwe
+                  stock: 2
+                  status: 1
+        description: Parameters for item
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+  '/item/:id':
+    parameters: []
+    get:
+      summary: ''
+      operationId: 'get-item-:id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sellerID:
+                    type: integer
+                  name:
+                    type: string
+                  stock:
+                    type: integer
+                  status:
+                    type: integer
+                x-examples:
+                  Example 1:
+                    sellerID: 5
+                    name: item2
+                    stock: 3
+                    status: 1
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sellerID:
+                    type: integer
+                  name:
+                    type: string
+                  stock:
+                    type: integer
+                  status:
+                    type: integer
+                x-examples:
+                  Example 1:
+                    sellerID: 5
+                    name: qwe
+                    stock: 2
+                    status: 1
+      description: Endpoint to get item based on id and status
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: status
+          description: item status
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+    put:
+      summary: ''
+      operationId: 'put-item-:id'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      description: 'Endpoint to update item, including soft deleting'
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                sellerID:
+                  type: integer
+                name:
+                  type: string
+                stock:
+                  type: integer
+                status:
+                  type: integer
+              x-examples:
+                Example 1:
+                  sellerID: 5
+                  name: qwe
+                  stock: 2
+                  status: 1
+        description: All of item parameters
+  '/seller/:sellerID':
+    parameters: []
+    get:
+      summary: ''
+      operationId: 'get-seller-:sellerId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    sellerID:
+                      type: integer
+                    name:
+                      type: string
+                    stock:
+                      type: integer
+                    status:
+                      type: integer
+                x-examples:
+                  Example 1:
+                    - sellerID: 5
+                      name: qwe
+                      stock: 2
+                      status: 1
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sellerID:
+                    type: integer
+                  name:
+                    type: string
+                  stock:
+                    type: integer
+                  status:
+                    type: integer
+                x-examples:
+                  Example 1:
+                    sellerID: 5
+                    name: qwe
+                    stock: 2
+                    status: 1
+      description: Endpoint to get all of seller's item
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: status
+          description: item status
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+  /order/:
+    parameters: []
+    post:
+      summary: ''
+      operationId: post-order
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    x-stoplight:
+                      id: 7oss0aztq4nft
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+      description: Endpoint to add order
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              x-examples:
+                Example 1:
+                  sellerID: 5
+                  name: qwe
+                  stock: 2
+                  status: 1
+              properties:
+                itemID:
+                  type: integer
+                  x-stoplight:
+                    id: v3xwkh69ifrf7
+        description: Parameters for item id
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+  '/order/:id':
+    parameters: []
+    get:
+      summary: ''
+      operationId: 'get-order-:id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  itemID:
+                    type: integer
+                  buyerID:
+                    type: integer
+                  sellerID:
+                    type: integer
+                  status:
+                    type: integer
+                  statusName:
+                    type: string
+                  expiredDate:
+                    type: string
+                  createdDate:
+                    type: string
+                  lastUpdated:
+                    type: string
+                x-examples:
+                  Example 1:
+                    id: 1
+                    itemID: 1
+                    buyerID: 1
+                    sellerID: 5
+                    status: 1
+                    statusName: item2
+                    expiredDate: item2
+                    createdDate: item2
+                    lastUpdated: item2
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sellerID:
+                    type: integer
+                  name:
+                    type: string
+                  stock:
+                    type: integer
+                  status:
+                    type: integer
+                x-examples:
+                  Example 1:
+                    sellerID: 5
+                    name: qwe
+                    stock: 2
+                    status: 1
+      description: Endpoint to get order based on id and status
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: status
+          description: item status
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+    put:
+      summary: ''
+      operationId: 'put-order-:id'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+      description: Endpoint to update order status
+      parameters:
+        - schema:
+            type: string
+          in: header
+          name: Authorization
+          description: Bearer JWT
+        - schema:
+            type: integer
+          in: query
+          name: status
+          description: next status
+      requestBody:
+        content: {}
+        description: All of item parameters
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        password:
+          type: string
+        role:
+          type: integer
+        status:
+          type: integer
+        joinDate:
+          type: string
+      x-examples:
+        Example 1:
+          id: 1
+          name: tesbuyer
+          password: asd
+          role: 2
+          status: 1
+          joinDate: asd
+      title: Users
+      description: represent users table
+      examples:
+        - id: 1
+          name: jon
+          password: doe
+          role: 1
+          status: 1
+          joinDate: '2022-10-01'
+    Items:
+      type: object
+      x-stoplight:
+        id: ikanz7d1vtiyj
+      x-examples:
+        Example 1:
+          id: 1
+          name: tesbuyer
+          password: asd
+          role: 2
+          status: 1
+          joinDate: asd
+      title: Items
+      description: represent items table
+      properties:
+        id:
+          type: integer
+        sellerId:
+          type: integer
+          x-stoplight:
+            id: 65hjlv3zkq9mo
+        name:
+          type: string
+        stock:
+          type: integer
+          x-stoplight:
+            id: tscwr8m2x76yr
+        status:
+          type: integer
+      examples:
+        - id: 1
+          sellerId: 2
+          name: Apple
+          stock: 5
+          status: 1
+    Order:
+      type: object
+      x-stoplight:
+        id: wqaeifo8he4zm
+      x-examples:
+        Example 1:
+          id: 1
+          name: tesbuyer
+          password: asd
+          role: 2
+          status: 1
+          joinDate: asd
+      title: Order
+      description: represent order table
+      examples:
+        - id: 1
+          itemId: 2
+          buyerId: 3
+          sellerId: 4
+          status: 1
+          statusName: waiting
+          expiredDate: '2022-10-10'
+          createdDate: '2022-10-05'
+          lastUpdated: '2022-10-07'
+      properties:
+        id:
+          type: integer
+        itemId:
+          type: integer
+          x-stoplight:
+            id: 84i71r90fmunv
+        buyerId:
+          type: integer
+          x-stoplight:
+            id: swrxoz93bc119
+        sellerId:
+          type: integer
+          x-stoplight:
+            id: 65hjlv3zkq9mo
+        status:
+          type: integer
+          x-stoplight:
+            id: tscwr8m2x76yr
+        statusName:
+          type: string
+          x-stoplight:
+            id: eqwf5aysahz8y
+        expiredDate:
+          type: string
+          x-stoplight:
+            id: rrt9w6di7v30a
+        createdDate:
+          type: string
+          x-stoplight:
+            id: 3t5krv528qq1u
+        lastUpdated:
+          type: string
+          x-stoplight:
+            id: pc6f1cbksqmbu
